@@ -8,7 +8,7 @@ import com.orm.SugarRecord;
  * Created by Balint on 2017. 11. 27..
  */
 
-public abstract class Exercise extends SugarRecord<Exercise>{
+public class Exercise extends SugarRecord<Exercise>{
 
     protected WorkoutDay workoutDay;
     protected int sequence;
@@ -17,13 +17,14 @@ public abstract class Exercise extends SugarRecord<Exercise>{
 
     public Exercise() {}
 
-    public Exercise(WorkoutDay wd, int sequence, String reps) {
-        workoutDay = wd;
+    public Exercise(String name, WorkoutDay workoutDay, int sequence, String reps) {
+        this.name = name;
+        this.workoutDay = workoutDay;
         this.sequence = sequence;
         this.reps = reps;
     }
 
-    public String getExerciseName() {
+    public String getName() {
         return name;
     }
 
@@ -32,13 +33,5 @@ public abstract class Exercise extends SugarRecord<Exercise>{
     }
 
     public Integer getSequence() { return sequence; }
-
-    // azonosító, hogy tudjuk, milyen példány (instanceof nélkül)
-    public abstract long getExerciseId();
-
-    // egy drawable id-t ad vissza
-    public abstract @DrawableRes int getIcon();
-
-    public abstract void finishExercise();
 
 }

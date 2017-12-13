@@ -53,25 +53,27 @@ public class WorkoutDay extends SugarRecord<WorkoutDay> {
     }
 
     private void setupTodaysExercises() {
-        //kiolvassuk az adatbázisból az e naphoz tartozó feladatokat, amiket még nem csináltunk meg
-        List<Pushup> pushupList = Pushup.find(Pushup.class, "workoutDay = ? and sequence >= ?", this.getId().toString(), numExercisesDone.toString());
-        List<Situp> situpList = Situp.find(Situp.class, "workoutDay = ? and sequence >= ?", this.getId().toString(), numExercisesDone.toString());
 
-        List<Exercise> list = new ArrayList<Exercise>();
-        list.addAll(pushupList);
-        list.addAll(situpList);
+        List<Exercise> exerciseList =
+                Exercise.find(Exercise.class,
+                "workout_day = ? and sequence >= ?",
+                this.getId().toString(),
+                numExercisesDone.toString());
 
+
+
+      //  List<Exercise> list = new ArrayList<Exercise>();
         //TODO - kiváncsi vagyok, hogy helyes-e a query...
 
         //rendezzük a sequence szerint növekvő sorrendbe
-        Collections.sort(list, new Comparator<Exercise>() {
+        Collections.sort(exerciseList, new Comparator<Exercise>() {
             @Override
             public int compare(Exercise o1, Exercise o2) {
                 return o1.getSequence().compareTo(o2.getSequence());
             }
         });
 
-        todaysExercises = list;
+        todaysExercises = exerciseList;
     }
 
     public void setDate(LocalDate date) {

@@ -80,30 +80,39 @@ public class WorkoutDayActivity extends AppCompatActivity {
         //TODO loadItemsInBackground();
 
         //egyelőre
-        loadItems();
+        //loadItems();
+        loadItemsInBackground();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
-    /*
+
     private void loadItemsInBackground() {
         new AsyncTask<Void, Void, List<ExerciseListItem>>() {
 
             @Override
             protected List<ExerciseListItem> doInBackground(Void... voids) {
-                return ExerciseListItem.listAll(ExerciseListItem.class);
+                List<ExerciseListItem> exercises = new ArrayList<>();
+                WorkoutDay activeWorkoutDay = DataManager.getActiveWorkoutDay();
+                List<Exercise> list = activeWorkoutDay.getTodaysExercises();
+                for (Exercise e : list) {
+                    ExerciseListItem eli = new ExerciseListItem(e);
+                    exercises.add(eli);
+                }
+                return exercises;
+                //return ExerciseListItem.listAll(ExerciseListItem.class);
             }
 
             @Override
-            protected void onPostExecute(List<ShoppingItem> shoppingItems) {
-                super.onPostExecute(shoppingItems);
-                adapter.update(shoppingItems);
+            protected void onPostExecute(List<ExerciseListItem> exercises) {
+                super.onPostExecute(exercises);
+                adapter.update(exercises);
             }
         }.execute();
     }
-    */
 
+    /*
     private void loadItems() {
         List<ExerciseListItem> exercises = new ArrayList<>();
         WorkoutDay activeWorkoutDay = DataManager.getActiveWorkoutDay();
@@ -115,4 +124,5 @@ public class WorkoutDayActivity extends AppCompatActivity {
 
         adapter.update(exercises);
     }
+    */
 }

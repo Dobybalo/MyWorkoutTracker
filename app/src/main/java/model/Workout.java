@@ -48,7 +48,7 @@ public class Workout extends SugarRecord<Workout> {
         // database query: SELECT DISTINCT
         List<Exercise> exerciseList = Exercise.listAll(Exercise.class);
         for (Exercise e: exerciseList) {
-            exercise_types.add(e.getExerciseName());    // mivel set, csak akkor adja hozzá, ha új
+            exercise_types.add(e.getName());    // mivel set, csak akkor adja hozzá, ha új
         }
     }
 

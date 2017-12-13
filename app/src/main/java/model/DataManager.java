@@ -1,11 +1,14 @@
 package model;
 
+import android.support.annotation.DrawableRes;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import hu.bme.aut.myworkouttracker.R;
 
 /**
  * Created by Balint on 2017. 11. 27..
@@ -17,6 +20,8 @@ public class DataManager {
     // TODO - rosszul használtam a Singletont, csupa statikus függvénye van
 
     private static DataManager instance = new DataManager();
+    public static @DrawableRes int pushupIcon = R.drawable.pushup_icon;
+    public static @DrawableRes int situpIcon = R.drawable.situp_icon;
 
     public static DataManager getInstance() {
 
@@ -62,13 +67,14 @@ public class DataManager {
 
         for (int i=0; i<6; i++) {
             WorkoutDay wd = new WorkoutDay(wo);
+            wd.save();  // a LocalDate itt még null, mivel új workout, a SelectWDActivityben lesz kitöltve
 
             for (int j=0; j<10; j++) {
-                Exercise e = new Pushup(wd, j, "10");
+                Exercise e = new Exercise("fekvőtámasz", wd, j, "10");
                 e.save();   // Exercise adatai kész vannak, elmentjük
             }
 
-            wd.save();  // a LocalDate itt még null, mivel új workout, a SelectWDActivityben lesz kitöltve
+
         }
 
           // setupWorkoutsMap-et kell használni!
@@ -82,13 +88,15 @@ public class DataManager {
 
         for (int i=0; i<12; i++) {
             WorkoutDay wd = new WorkoutDay(wo2);
+            wd.save();  // a LocalDate itt még null, mivel új workout, a SelectWDActivityben lesz kitöltve
 
             for (int j=0; j<10; j++) {
-                Exercise e = new Situp(wd, j, "10");
+                Exercise e = new Exercise("felülés", wd, j, "10");
+                Log.i("adding", "situp added");
                 e.save();   // Exercise adatai kész vannak, elmentjük
             }
 
-            wd.save();  // a LocalDate itt még null, mivel új workout, a SelectWDActivityben lesz kitöltve
+
         }
 
          // setupWorkoutsMap-et kell használni!

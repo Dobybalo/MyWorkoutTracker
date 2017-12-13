@@ -15,7 +15,7 @@ public class ExerciseListItem {
     private Exercise exercise;
 
     public String getExerciseName() {
-        return exercise.getExerciseName();
+        return exercise.getName();
     }
 
     public String getExerciseReps() {
@@ -25,7 +25,14 @@ public class ExerciseListItem {
 
     public @DrawableRes
     int getImageResource() {
-        return exercise.getIcon();
+
+        //TODO
+        // ha fekvőtámasz, annak az ikonja
+        // ha felülés, azé...
+
+        if (exercise.getName().equals("fekvőtámasz")) return DataManager.pushupIcon;
+        else if (exercise.getName().equals("felülés")) return DataManager.situpIcon;
+        return 0;
     }
 
 }
