@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="workoutProgramsArray">
+        <item name="100pushups">100 fekvőtámasz program</item>
+        <item name="200situps">200 felülés program</item>
+    </string-array>
+    <string-array name="workoutShortNames">
+        <item name="100pushups">100pushups</item>
+        <item name="200situps">200situps</item>
+    </string-array>
+</resources>

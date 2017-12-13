@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_linLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="5"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:paddingTop="8dip"
+    android:paddingBottom="8dip"
+    android:paddingLeft="16dip"
+    android:paddingRight="16dip">
+
+    <TextView
+        android:id="@+id/ExerciseRepsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="64sp"
+        android:layout_weight="1"
+        tools:text="10"/>
+
+    <TextView
+        android:id="@+id/ExerciseNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:layout_weight="3"
+        tools:text="fekvőtámasz"/>
+
+    <ImageView
+        android:id="@+id/ExerciseIconImageView"
+        android:layout_width="75dip"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dip"
+        android:padding="8dip"
+        android:layout_weight="1" />
+
+</LinearLayout>
