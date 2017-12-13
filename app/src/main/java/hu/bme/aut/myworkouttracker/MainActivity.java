@@ -67,7 +67,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                    // intent.putExtra(SelectWorkoutDaysActivity.KEY_HOW_MANY, days);
                     startActivity(intent);
                 } else {
+
+                    //ki kell olvasnunk az adatbázisból a dátumokat, napok "állapotát"
+                    activeWorkout.readScheduleFromDB();
+
                     // TODO - egyébként a naptárhoz megyünk
+                    Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+                    startActivity(intent);
+
                 }
             }
         });

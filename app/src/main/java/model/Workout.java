@@ -110,6 +110,13 @@ public class Workout extends SugarRecord<Workout> {
 
     }
 
+    public void readScheduleFromDB() {
+        setupWorkoutDaysList();
+        setupSchedule();
+    }
+
+    //Ez a függvény pontosan 1x fut le egy Workout-ot nézve,
+    // legközelebb már csak ki kell olvasni a dátumokat
     public void setWorkoutDays(boolean[] days, LocalDate startDate) {
 
         // TODO: beteszünk még egy DatePickert a napválasztó activityre...
@@ -120,10 +127,9 @@ public class Workout extends SugarRecord<Workout> {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        //teszt
         setupWorkoutDaysList();
 
-        if (workoutDays.size() == 0) Log.i("azonosito", "size: 0");
+       // if (workoutDays.size() == 0) Log.i("azonosito", "size: 0");
 
         for (int i=0; i < lengthInWeeks * 7; i++) {
 
@@ -139,7 +145,7 @@ public class Workout extends SugarRecord<Workout> {
                 if (workoutDays.isEmpty() == false) {
                     WorkoutDay wd = workoutDays.remove(0);
                     schedule.put(ld, wd);
-                    //teszt
+
                     wd.setDate(ld);
                     wd.save();
 

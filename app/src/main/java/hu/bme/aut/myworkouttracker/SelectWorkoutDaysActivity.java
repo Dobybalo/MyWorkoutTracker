@@ -61,6 +61,10 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                 //   melyik napokra esik edzés
                 activeWorkout.setWorkoutDays(selection, startDate);
 
+                //started-ra állítjuk a Workout-ot
+                activeWorkout.start();
+                activeWorkout.save();
+
                 Intent intent = new Intent(SelectWorkoutDaysActivity.this, CalendarActivity.class);
                 //intent.putExtra(SelectWorkoutDaysActivity.KEY_HOW_MANY, days);
                 startActivity(intent);

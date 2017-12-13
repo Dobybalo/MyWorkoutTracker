@@ -99,7 +99,7 @@ public class CalendarActivity extends AppCompatActivity {
         HashMap<LocalDate, WorkoutDay> schedule = activeWorkout.getSchedule();
         int s = schedule.size();
 
-        Log.i("schedule", "schedule size: " + s);
+      //  Log.i("schedule", "schedule size: " + s);
 
         Iterator it = schedule.entrySet().iterator();
         while (it.hasNext()) {
