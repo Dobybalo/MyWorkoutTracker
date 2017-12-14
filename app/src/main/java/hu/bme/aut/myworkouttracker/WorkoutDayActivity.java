@@ -62,10 +62,11 @@ public class WorkoutDayActivity extends AppCompatActivity {
                 }
 
                 if (adapter.getItemCount() == 0) {
+
                     activeDay.finishDay();
 
                     //TODO - egyelőre a Calendar-ba, amúgy a ProgressActivitybe!!
-                    Intent intent = new Intent(WorkoutDayActivity.this, CalendarActivity.class);
+                    Intent intent = new Intent(WorkoutDayActivity.this, ProgressActivity.class);
                     startActivity(intent);
                 }
             }
