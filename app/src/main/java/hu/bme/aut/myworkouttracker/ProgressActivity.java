@@ -1,5 +1,6 @@
 package hu.bme.aut.myworkouttracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,20 +48,6 @@ public class ProgressActivity extends AppCompatActivity {
 
         setValues();
 
-        //teszt
-        /*
-        max *= 100;
-        progressBar.setMax(max);
-        from = 0;
-        to = max;
-        */
-
-        /*
-
-        progressBar.setMax(max);
-        progressBar.setProgress((int)to);
-*/
-
         progressBar.setMax(max);
         progressBar.setScaleY(4f);
 
@@ -91,6 +78,14 @@ public class ProgressActivity extends AppCompatActivity {
         max = list.size() *100;
         Log.i("progress", "From: " + from + " To: " + to + " Max: " + max);
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(ProgressActivity.this, CalendarActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
 

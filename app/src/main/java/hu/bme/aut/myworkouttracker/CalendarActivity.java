@@ -90,6 +90,14 @@ public class CalendarActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
     private void setBackgroundColors() {
 
         //teszt
