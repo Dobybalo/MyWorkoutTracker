@@ -13,8 +13,8 @@ import model.WorkoutDay;
 public class ProgressActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
-    private int from;
-    private int to;
+    private float from;
+    private float to;
     private int max;
 
     @Override
@@ -23,6 +23,13 @@ public class ProgressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_progress);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        //teszt
+        /*
+        bar.setMax(50);
+        bar.setProgress(20);
+        */
+
 
         //kell setMax, setMin(?)
         // ki kell számolni hogy mettől meddig
@@ -40,18 +47,33 @@ public class ProgressActivity extends AppCompatActivity {
 
         setValues();
 
+        //teszt
         /*
-        ProgressBarAnimation anim = new ProgressBarAnimation(progressBar, from, to);
-        anim.setDuration(1000);
-        progressBar.startAnimation(anim);
+        max *= 100;
+        progressBar.setMax(max);
+        from = 0;
+        to = max;
         */
 
-        ProgressBarAnimation mProgressAnimation = new ProgressBarAnimation(progressBar, 1000);
+        /*
 
-        /* Update progress later anywhere in code: */
+        progressBar.setMax(max);
+        progressBar.setProgress((int)to);
+*/
+
+        progressBar.setMax(max);
+        progressBar.setScaleY(4f);
+
+        ProgressBarAnimation anim = new ProgressBarAnimation(progressBar, from, to);
+        anim.setDuration(2000);
+        progressBar.startAnimation(anim);
+
+      //  ProgressBarAnimation mProgressAnimation = new ProgressBarAnimation(progressBar, 1000);
+
+        /* Update progress later anywhere in code:
         mProgressAnimation.setProgress(from);
         mProgressAnimation.setProgress(to);
-
+        */
     }
 
     private void setValues() {
@@ -64,9 +86,9 @@ public class ProgressActivity extends AppCompatActivity {
         }
 
         //ebben már benne van a mostani nap is
-        from = counter - 1;
-        to = counter;
-        max = list.size();
+        from = (counter - 1) * 100;
+        to = counter * 100;
+        max = list.size() *100;
         Log.i("progress", "From: " + from + " To: " + to + " Max: " + max);
 
     }

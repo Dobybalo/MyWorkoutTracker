@@ -8,7 +8,7 @@ import android.widget.ProgressBar;
 /**
  * Created by Balint on 2017. 12. 14..
  */
-/*
+
 public class ProgressBarAnimation extends Animation {
     private ProgressBar progressBar;
     private float from;
@@ -29,8 +29,8 @@ public class ProgressBarAnimation extends Animation {
     }
 
 }
-*/
 
+/*
 public class ProgressBarAnimation extends Animation {
     private ProgressBar mProgressBar;
     private int mTo;
@@ -39,7 +39,7 @@ public class ProgressBarAnimation extends Animation {
 
     /**
      * @param fullDuration - time required to fill progress from 0% to 100%
-     */
+
     public ProgressBarAnimation(ProgressBar progressBar, long fullDuration) {
         super();
         mProgressBar = progressBar;
@@ -69,3 +69,4 @@ public class ProgressBarAnimation extends Animation {
         mProgressBar.setProgress((int) value);
     }
 }
+*/

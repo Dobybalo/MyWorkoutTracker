@@ -17,7 +17,7 @@
             android:value="sugar_example.db" />
         <meta-data
             android:name="VERSION"
-            android:value="10" />
+            android:value="11" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -35,7 +35,8 @@
         <activity android:name=".SelectWorkoutDaysActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".WorkoutDayActivity" />
-        <activity android:name=".ProgressActivity"></activity>
+        <activity android:name=".ProgressActivity" />
+        <activity android:name=".testActivity"></activity>
     </application>
 
 </manifest>
