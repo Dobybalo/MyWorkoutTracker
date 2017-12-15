@@ -3,13 +3,12 @@ package hu.bme.aut.myworkouttracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ProgressBar;
 
 import java.util.List;
 
-import model.DataManager;
-import model.WorkoutDay;
+import hu.bme.aut.myworkouttracker.model.DataManager;
+import hu.bme.aut.myworkouttracker.model.WorkoutDay;
 
 public class ProgressActivity extends AppCompatActivity {
 

@@ -1,18 +1,12 @@
 package hu.bme.aut.myworkouttracker;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
@@ -25,9 +19,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import model.DataManager;
-import model.Workout;
-import model.WorkoutDay;
+import hu.bme.aut.myworkouttracker.model.DataManager;
+import hu.bme.aut.myworkouttracker.model.Workout;
+import hu.bme.aut.myworkouttracker.model.WorkoutDay;
 
 public class CalendarActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package model;
+package hu.bme.aut.myworkouttracker.model;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class WorkoutDay extends SugarRecord<WorkoutDay> {
@@ -39,16 +38,16 @@ public class WorkoutDay extends SugarRecord<WorkoutDay> {
     private void setupTodaysExercises() {
 
         List<Exercise> exerciseList =
-                Exercise.find(Exercise.class,
-                "workout_day = ? and sequence >= ?",
-                this.getId().toString(),
-                numExercisesDone.toString());
+            Exercise.find(Exercise.class,
+            "workout_day = ? and sequence >= ?",
+            this.getId().toString(),
+            numExercisesDone.toString());
 
         //rendezzük a sequence szerint növekvő sorrendbe
         Collections.sort(exerciseList, new Comparator<Exercise>() {
             @Override
             public int compare(Exercise o1, Exercise o2) {
-                return o1.getSequence().compareTo(o2.getSequence());
+            return o1.getSequence().compareTo(o2.getSequence());
             }
         });
 

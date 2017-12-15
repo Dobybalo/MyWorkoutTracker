@@ -2,7 +2,6 @@ package hu.bme.aut.myworkouttracker;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +12,11 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.DataManager;
-import model.Exercise;
-import model.ExerciseListAdapter;
-import model.ExerciseListItem;
-import model.WorkoutDay;
+import hu.bme.aut.myworkouttracker.model.DataManager;
+import hu.bme.aut.myworkouttracker.model.Exercise;
+import hu.bme.aut.myworkouttracker.model.ExerciseListAdapter;
+import hu.bme.aut.myworkouttracker.model.ExerciseListItem;
+import hu.bme.aut.myworkouttracker.model.WorkoutDay;
 
 public class WorkoutDayActivity extends AppCompatActivity {
 

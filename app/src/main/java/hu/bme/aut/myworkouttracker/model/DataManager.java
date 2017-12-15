@@ -1,12 +1,9 @@
-package model;
+package hu.bme.aut.myworkouttracker.model;
 
 import android.support.annotation.DrawableRes;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import hu.bme.aut.myworkouttracker.R;
 

@@ -1,11 +1,8 @@
-package model;
-
-import android.util.Log;
+package hu.bme.aut.myworkouttracker.model;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

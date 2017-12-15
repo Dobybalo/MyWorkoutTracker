@@ -1,6 +1,4 @@
-package model;
-
-import android.support.annotation.DrawableRes;
+package hu.bme.aut.myworkouttracker.model;
 
 import com.orm.SugarRecord;
 

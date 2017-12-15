@@ -1,4 +1,4 @@
-package model;
+package hu.bme.aut.myworkouttracker.model;
 
 import android.support.annotation.DrawableRes;
 
