@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,11 +12,12 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-import hu.bme.aut.myworkouttracker.model.DataManager;
-import hu.bme.aut.myworkouttracker.model.Exercise;
-import hu.bme.aut.myworkouttracker.model.ExerciseListAdapter;
-import hu.bme.aut.myworkouttracker.model.ExerciseListItem;
-import hu.bme.aut.myworkouttracker.model.WorkoutDay;
+import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.Exercise;
+import hu.bme.aut.myworkouttracker.adapters.ExerciseListAdapter;
+import hu.bme.aut.myworkouttracker.adapters.ExerciseListItem;
+import hu.bme.aut.myworkouttracker.models.WorkoutDay;
 
 public class WorkoutDayActivity extends AppCompatActivity {
 
@@ -47,6 +48,9 @@ public class WorkoutDayActivity extends AppCompatActivity {
 
                 if (adapter.getItemCount() != 0) {
 
+                    // hogy ne lehessen azelőtt lenyomni újra, hogy befejeztük volna
+                    doneButton.setEnabled(false);
+
                     if (!activeDay.hasStarted()) activeDay.startDay();
 
                     activeDay.finishExercise();
@@ -57,6 +61,8 @@ public class WorkoutDayActivity extends AppCompatActivity {
                     adapter.notifyItemRangeChanged(0, adapter.getItemCount());
 
                     recyclerView.smoothScrollToPosition(0);
+
+                    doneButton.setEnabled(true);
                 }
 
                 if (adapter.getItemCount() == 0) {

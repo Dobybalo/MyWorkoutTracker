@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.application;
 
 import com.orm.SugarApp;
 

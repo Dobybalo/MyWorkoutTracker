@@ -1,6 +1,9 @@
-package hu.bme.aut.myworkouttracker.model;
+package hu.bme.aut.myworkouttracker.adapters;
 
 import android.support.annotation.DrawableRes;
+
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.Exercise;
 
 public class ExerciseListItem {
 

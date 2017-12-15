@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import hu.bme.aut.myworkouttracker.model.DataManager;
-import hu.bme.aut.myworkouttracker.model.Workout;
+import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.Workout;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
 
         //betöltjük a workout-ok adatait
-        DataManager.setupWorkouts();
+        DataManager.setupWorkouts(getApplicationContext());
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);

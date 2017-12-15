@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,10 @@ import android.widget.ProgressBar;
 
 import java.util.List;
 
-import hu.bme.aut.myworkouttracker.model.DataManager;
-import hu.bme.aut.myworkouttracker.model.WorkoutDay;
+import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.animations.ProgressBarAnimation;
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.WorkoutDay;
 
 public class ProgressActivity extends AppCompatActivity {
 
@@ -53,7 +55,7 @@ public class ProgressActivity extends AppCompatActivity {
         // 100-zal szorozzuk az értékeket, így nem annyira "darabos" az animáció
         from = (counter - 1) * 100;
         to = counter * 100;
-        max = list.size() *100;
+        max = list.size() * 100;
 
     }
 

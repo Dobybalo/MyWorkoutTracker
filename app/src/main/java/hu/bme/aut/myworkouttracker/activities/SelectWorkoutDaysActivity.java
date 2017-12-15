@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +12,9 @@ import org.joda.time.LocalDate;
 
 import java.util.Date;
 
-import hu.bme.aut.myworkouttracker.model.DataManager;
-import hu.bme.aut.myworkouttracker.model.Workout;
+import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.Workout;
 
 public class SelectWorkoutDaysActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.activities;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -19,9 +19,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import hu.bme.aut.myworkouttracker.model.DataManager;
-import hu.bme.aut.myworkouttracker.model.Workout;
-import hu.bme.aut.myworkouttracker.model.WorkoutDay;
+import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.Workout;
+import hu.bme.aut.myworkouttracker.models.WorkoutDay;
 
 public class CalendarActivity extends AppCompatActivity {
 

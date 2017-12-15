@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker.model;
+package hu.bme.aut.myworkouttracker.models;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;

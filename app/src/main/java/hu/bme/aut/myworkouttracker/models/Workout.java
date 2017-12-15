@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker.model;
+package hu.bme.aut.myworkouttracker.models;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
@@ -39,19 +39,6 @@ public class Workout extends SugarRecord<Workout> {
     @Ignore
     private WorkoutDay activeWorkoutDay;    // ez csak addig kell, amíg fut a program
 
-    private void setupExercisesSet() {
-        // database query: SELECT DISTINCT
-        List<Exercise> exerciseList = Exercise.listAll(Exercise.class);
-        for (Exercise e: exerciseList) {
-            exercise_types.add(e.getName());    // mivel set, csak akkor adja hozzá, ha új
-        }
-    }
-
-
-
-    public String getWorkoutName() {
-        return workoutName;
-    }
 
     public Workout() {}
 
@@ -59,7 +46,11 @@ public class Workout extends SugarRecord<Workout> {
         workoutName = name;
     }
 
-    // TODO - hibakezelés
+
+    public String getWorkoutName() {
+        return workoutName;
+    }
+
     public void setLengthInWeeks(int n) {
         if (n >= 0) lengthInWeeks = n;
     }
@@ -76,33 +67,10 @@ public class Workout extends SugarRecord<Workout> {
         requiredDaysPerWeek = n;
     }
 
-    public void addWorkoutDay(WorkoutDay wd) {
-        workoutDays.add(wd);
-    }
-
     public int getRequiredDaysPerWeek() { return requiredDaysPerWeek; }
 
     public HashMap<LocalDate, WorkoutDay> getSchedule() { return schedule; }
 
-    private void setupWorkoutDaysList() {
-        List<WorkoutDay> workoutDayList = WorkoutDay.getWorkoutDaysListForWorkout(this);
-        workoutDays.addAll(workoutDayList);
-    }
-
-    private void setupSchedule() {
-        // már megvan a workoutDay-ek listája, amik ehhez a Workouthoz tartoznak
-        if (workoutDays.isEmpty()) {
-            //TODO - throw exception?
-        }
-        else {
-            //végigmegyünk a listán, kiolvassuk a dátumokat, aszerint mappeljük a napokat
-            for (WorkoutDay wd : workoutDays) {
-                LocalDate ld = wd.getDate();
-                schedule.put(ld, wd);
-            }
-        }
-
-    }
 
     public void readScheduleFromDB() {
         setupWorkoutDaysList();
@@ -157,5 +125,34 @@ public class Workout extends SugarRecord<Workout> {
     public void start() {
         started = true;
     }
+
+    private void setupExercisesSet() {
+        // database query: SELECT DISTINCT
+        List<Exercise> exerciseList = Exercise.listAll(Exercise.class);
+        for (Exercise e: exerciseList) {
+            exercise_types.add(e.getName());    // mivel set, csak akkor adja hozzá, ha új
+        }
+    }
+
+    private void setupWorkoutDaysList() {
+        List<WorkoutDay> workoutDayList = WorkoutDay.getWorkoutDaysListForWorkout(this);
+        workoutDays.addAll(workoutDayList);
+    }
+
+    private void setupSchedule() {
+        // már megvan a workoutDay-ek listája, amik ehhez a Workouthoz tartoznak
+        if (workoutDays.isEmpty()) {
+            //TODO - throw exception?
+        }
+        else {
+            //végigmegyünk a listán, kiolvassuk a dátumokat, aszerint mappeljük a napokat
+            for (WorkoutDay wd : workoutDays) {
+                LocalDate ld = wd.getDate();
+                schedule.put(ld, wd);
+            }
+        }
+
+    }
+
 
 }

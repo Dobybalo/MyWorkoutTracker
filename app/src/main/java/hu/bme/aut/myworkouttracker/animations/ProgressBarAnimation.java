@@ -1,4 +1,4 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.animations;
 
 import android.view.animation.Animation;
 import android.view.animation.Transformation;

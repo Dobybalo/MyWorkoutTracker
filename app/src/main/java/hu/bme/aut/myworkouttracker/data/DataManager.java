@@ -1,11 +1,15 @@
-package hu.bme.aut.myworkouttracker.model;
+package hu.bme.aut.myworkouttracker.data;
 
+import android.content.Context;
 import android.support.annotation.DrawableRes;
 
 import java.util.HashMap;
 import java.util.List;
 
 import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.models.Exercise;
+import hu.bme.aut.myworkouttracker.models.Workout;
+import hu.bme.aut.myworkouttracker.models.WorkoutDay;
 
 
 public class DataManager {
@@ -54,8 +58,8 @@ public class DataManager {
     public static WorkoutDay getActiveWorkoutDay() { return activeWorkout.getActiveWorkoutDay(); }
     public static void setActiveWorkoutDay(WorkoutDay wd) {activeWorkout.setActiveWorkoutDay(wd);}
 
-    private static void addWorkoutsToDB() {
-        Workout wo = new Workout("100pushups");
+    private static void addWorkoutsToDB(Context context) {
+        Workout wo = new Workout(context.getString(R.string.pushup100workoutProgram));
         wo.setLengthInWeeks(3);
         wo.setRequiredDaysPerWeek(2);
         wo.save();
@@ -65,13 +69,13 @@ public class DataManager {
             wd.save();
 
             for (int j=0; j<10; j++) {
-                Exercise e = new Exercise("fekvőtámasz", wd, j, "10");
+                Exercise e = new Exercise(context.getString(R.string.pushup), wd, j, "10");
                 e.save();
             }
 
         }
 
-        Workout wo2 = new Workout("200situps");
+        Workout wo2 = new Workout(context.getString(R.string.situp200workoutProgram));
         wo2.setLengthInWeeks(4);
         wo2.setRequiredDaysPerWeek(3);
         wo2.save();
@@ -81,7 +85,7 @@ public class DataManager {
             wd.save();
 
             for (int j=0; j<10; j++) {
-                Exercise e = new Exercise("felülés", wd, j, "10");
+                Exercise e = new Exercise(context.getString(R.string.situp), wd, j, "10");
                 e.save();
             }
 
@@ -90,12 +94,12 @@ public class DataManager {
 
     }
 
-    public static void setupWorkouts() {
+    public static void setupWorkouts(Context context) {
 
         //csak akkor adjuk hozzá az edzésterveket(workout) az adatbázishoz, hogyha üres!
         List<Workout> list = Workout.listAll(Workout.class);
         if (list.isEmpty()) {
-            addWorkoutsToDB();
+            addWorkoutsToDB(context);
         }
 
         //itt már biztosan benne vannak az adatbázisban, kiolvassuk, mappeljük
