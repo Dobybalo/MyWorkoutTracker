@@ -24,22 +24,6 @@ public class ProgressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_progress);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        //teszt
-        /*
-        bar.setMax(50);
-        bar.setProgress(20);
-        */
-
-
-        //kell setMax, setMin(?)
-        // ki kell számolni hogy mettől meddig
-
-        // max: összes nap
-        // min: 0
-        // from: elvégzett napok száma (enélkül)
-        // to: előző + 1
-
     }
 
     @Override
@@ -55,12 +39,6 @@ public class ProgressActivity extends AppCompatActivity {
         anim.setDuration(2000);
         progressBar.startAnimation(anim);
 
-      //  ProgressBarAnimation mProgressAnimation = new ProgressBarAnimation(progressBar, 1000);
-
-        /* Update progress later anywhere in code:
-        mProgressAnimation.setProgress(from);
-        mProgressAnimation.setProgress(to);
-        */
     }
 
     private void setValues() {
@@ -72,11 +50,11 @@ public class ProgressActivity extends AppCompatActivity {
             if (wd.hasFinished()) counter++;
         }
 
-        //ebben már benne van a mostani nap is
+        //ebben már benne van a most elvégzett nap is
+        // 100-zal szorozzuk az értékeket, így nem annyira "darabos" az animáció
         from = (counter - 1) * 100;
         to = counter * 100;
         max = list.size() *100;
-        Log.i("progress", "From: " + from + " To: " + to + " Max: " + max);
 
     }
 

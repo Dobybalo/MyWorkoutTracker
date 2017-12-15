@@ -53,7 +53,6 @@ public class WorkoutDayActivity extends AppCompatActivity {
                     activeDay.finishExercise();
 
                     adapter.removeFirstItemFromList();
-                    //list.remove(position);
                     recyclerView.removeViewAt(0);
                     adapter.notifyItemRemoved(0);
                     adapter.notifyItemRangeChanged(0, adapter.getItemCount());
@@ -65,7 +64,6 @@ public class WorkoutDayActivity extends AppCompatActivity {
 
                     activeDay.finishDay();
 
-                    //TODO - egyelőre a Calendar-ba, amúgy a ProgressActivitybe!!
                     Intent intent = new Intent(WorkoutDayActivity.this, ProgressActivity.class);
                     startActivity(intent);
                 }
@@ -78,10 +76,7 @@ public class WorkoutDayActivity extends AppCompatActivity {
     private void initRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.MainRecyclerView);
         adapter = new ExerciseListAdapter();
-        //TODO loadItemsInBackground();
 
-        //egyelőre
-        //loadItems();
         loadItemsInBackground();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -102,7 +97,7 @@ public class WorkoutDayActivity extends AppCompatActivity {
                     exercises.add(eli);
                 }
                 return exercises;
-                //return ExerciseListItem.listAll(ExerciseListItem.class);
+
             }
 
             @Override
@@ -113,17 +108,4 @@ public class WorkoutDayActivity extends AppCompatActivity {
         }.execute();
     }
 
-    /*
-    private void loadItems() {
-        List<ExerciseListItem> exercises = new ArrayList<>();
-        WorkoutDay activeWorkoutDay = DataManager.getActiveWorkoutDay();
-        List<Exercise> list = activeWorkoutDay.getTodaysExercises();
-        for (Exercise e : list) {
-            ExerciseListItem eli = new ExerciseListItem(e);
-            exercises.add(eli);
-        }
-
-        adapter.update(exercises);
-    }
-    */
 }

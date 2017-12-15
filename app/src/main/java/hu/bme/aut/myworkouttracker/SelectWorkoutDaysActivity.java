@@ -21,58 +21,42 @@ import model.Workout;
 
 public class SelectWorkoutDaysActivity extends AppCompatActivity {
 
-    public static final String KEY_HOW_MANY = "KEY_HOW_MANY";
     private static int how_many_days;
     private static int selectedDays = 0;
-    //private Set<Integer> selection = new HashSet<>();
     private boolean[] selection = new boolean[7];
     private LocalDate startDate;
+    private Button goButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_workout_days);
 
-        /*
-        Intent intent = getIntent();
-        how_many_days = intent.getIntExtra(KEY_HOW_MANY, 1);
-        */
-
-        //ez változhat - TODO
-        // onResume-ban is frissíteni kell!!
         final Workout activeWorkout = DataManager.getActiveWorkout();
         how_many_days = activeWorkout.getRequiredDaysPerWeek();
 
-        final Button goButton = (Button) findViewById(R.id.goButton);
+        goButton = (Button) findViewById(R.id.goButton);
 
-        //defaultból legyen a gomb disabled
+        //by default legyen a gomb disabled
         goButton.setEnabled(false);
 
         goButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //validáció - elég nap ki van-e választva
-                //TODO - bár, végül is megvan...
-
-                //teszt!!
                 startDate = new LocalDate(new Date());
 
                 // ki kell számolni, hogy a megadott napok függvényében
-                //   melyik napokra esik edzés
+                //   mely dátumokra esik edzés
                 activeWorkout.setWorkoutDays(selection, startDate);
 
-                //started-ra állítjuk a Workout-ot
                 activeWorkout.start();
                 activeWorkout.save();
 
                 Intent intent = new Intent(SelectWorkoutDaysActivity.this, CalendarActivity.class);
-                //intent.putExtra(SelectWorkoutDaysActivity.KEY_HOW_MANY, days);
                 startActivity(intent);
 
             }
         });
-
-        //toggles
 
         for (int i=0; i<7; i++) {
             selection[i] = false;
@@ -89,10 +73,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+               checkEnoughDaysSelected();
             }
         });
 
@@ -107,10 +88,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
@@ -125,10 +103,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
@@ -143,10 +118,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
@@ -161,10 +133,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
         ToggleButton tgButton6 = (ToggleButton) findViewById(R.id.toggleButton6);
@@ -178,10 +147,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
@@ -196,21 +162,23 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
+    }
 
+    private void checkEnoughDaysSelected() {
+        if (how_many_days == selectedDays) {
+            goButton.setEnabled(true);
+        } else
+            goButton.setEnabled(false);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //betölthetjük az elmentett adatokat, de egyelőre csak "frissítjük" a változókat
-        selectedDays = 0;
+        selectedDays = 0;   //problémás lenne, ha vissza lehetne ide lépni
     }
 
     @Override

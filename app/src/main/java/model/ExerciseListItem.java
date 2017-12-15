@@ -2,10 +2,6 @@ package model;
 
 import android.support.annotation.DrawableRes;
 
-/**
- * Created by Balint on 2017. 12. 02..
- */
-
 public class ExerciseListItem {
 
     public ExerciseListItem(Exercise e) {
@@ -26,10 +22,7 @@ public class ExerciseListItem {
     public @DrawableRes
     int getImageResource() {
 
-        //TODO
-        // ha fekvőtámasz, annak az ikonja
-        // ha felülés, azé...
-
+        // TODO - szükségmegoldás...
         if (exercise.getName().equals("fekvőtámasz")) return DataManager.pushupIcon;
         else if (exercise.getName().equals("felülés")) return DataManager.situpIcon;
         return 0;

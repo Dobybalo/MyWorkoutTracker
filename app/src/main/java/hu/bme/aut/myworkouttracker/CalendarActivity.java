@@ -54,25 +54,18 @@ public class CalendarActivity extends AppCompatActivity {
                 WorkoutDay wd = DataManager.getActiveWorkout().getSchedule().get(ld);
 
                 if (wd != null && !wd.hasFinished()) {
-                    //Toast.makeText(getApplicationContext(),"onSelectDate: not null!" , Toast.LENGTH_SHORT).show();
-
                     DataManager.setActiveWorkoutDay(wd);
 
                     Intent intent = new Intent(CalendarActivity.this, WorkoutDayActivity.class);
                     startActivity(intent);
                 }
 
-                /*
-                setBackgroundColors();
-                caldroidFragment.refreshView();
-                */
             }
         };
 
         caldroidFragment.setCaldroidListener(listener);
 
-        // set background colors
-        setBackgroundColors();  // ezt minden frissítésnél meg ilyennél meg kell hívni!
+        setBackgroundColors();
 
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.fragmentToSwap, caldroidFragment);
@@ -99,29 +92,20 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private void setBackgroundColors() {
-
-        //teszt
-     //   Toast.makeText(getApplicationContext(),"Hello Javatpoint", Toast.LENGTH_SHORT).show();
-
         Workout activeWorkout = DataManager.getActiveWorkout();
         HashMap<LocalDate, WorkoutDay> schedule = activeWorkout.getSchedule();
         int s = schedule.size();
-
-      //  Log.i("schedule", "schedule size: " + s);
 
         Iterator it = schedule.entrySet().iterator();
         while (it.hasNext()) {
 
             Map.Entry pair = (Map.Entry)it.next();
-            //System.out.println(pair.getKey() + " = " + pair.getValue());
 
             LocalDate ld = (LocalDate) pair.getKey();
-            // ugyanez Date verzióban:
             Date dt = ld.toDateTimeAtStartOfDay().toDate();
 
             WorkoutDay wd = (WorkoutDay) pair.getValue();
 
-            //színezés: ha még nem kezdődött el / ha már elkezdődött / ha már véget ért...
             if (wd.hasFinished()) {
                 Drawable finishedDay = ResourcesCompat.getDrawable(getResources(), R.drawable.finishedday, null);
                 caldroidFragment.setBackgroundDrawableForDate(finishedDay, dt);
@@ -133,10 +117,7 @@ public class CalendarActivity extends AppCompatActivity {
             else {
                 //még nem kezdődött el
                 Drawable unstartedDay = ResourcesCompat.getDrawable(getResources(), R.drawable.starteddayshape, null);
-                //teszt
                 caldroidFragment.setBackgroundDrawableForDate(unstartedDay, dt);
-              //  ColorDrawable green = new ColorDrawable(Color.GREEN);
-                //caldroidFragment.setTextColorForDate(R.color.colorAccent, dt);
             }
 
         }

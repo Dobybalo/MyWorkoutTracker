@@ -12,8 +12,8 @@ public class Exercise extends SugarRecord<Exercise>{
 
     protected WorkoutDay workoutDay;
     protected int sequence;
-    protected String name;   // ?
-    protected String reps;   // mennyiség - darabszám vagy időbeli
+    protected String name;
+    protected String reps;
 
     public Exercise() {}
 

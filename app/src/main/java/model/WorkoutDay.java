@@ -1,7 +1,5 @@
 package model;
 
-import android.util.Log;
-
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
@@ -14,28 +12,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Balint on 2017. 11. 27..
- */
-
 public class WorkoutDay extends SugarRecord<WorkoutDay> {
 
-    //létrehoztam külön egy osztályt, mert a napi haladást is számon kell tartanunk, perzisztálnunk
-
-
-    private Integer numExercisesDone = 0;      //ahogy törli a RecyclerView-ból elvégzés után a feladatokat,
-                                           // úgy itt növeljük ezt a számot
-    private boolean startedDay = false; //pl színezéshez
+    private Integer numExercisesDone = 0;      // hány feladatot végeztünk már el, a maiak közül
+    private boolean startedDay = false;
     private boolean finishedDay = false;
 
     //PERZISZTENCIA miatt
     private Workout ownerWorkout;
-    private long dateLong;
-
-    /*
-    @Ignore
-    private LocalDate date;
-    */
+    private long dateLong;  // az adatbázisban úgyis longként lesz eltárolva, ilyen módon számolunk
 
     public static List<WorkoutDay> getWorkoutDaysListForWorkout(Workout wo) {
         List<WorkoutDay> list = WorkoutDay.find(WorkoutDay.class, "owner_workout = ?",  wo.getId().toString()+"");
@@ -48,7 +33,6 @@ public class WorkoutDay extends SugarRecord<WorkoutDay> {
     public WorkoutDay() {}
 
     public WorkoutDay(Workout wo) {
-        //Log.i("constructor", "Workout name: " + wo.getWorkoutName());
         ownerWorkout = wo;
     }
 
@@ -59,11 +43,6 @@ public class WorkoutDay extends SugarRecord<WorkoutDay> {
                 "workout_day = ? and sequence >= ?",
                 this.getId().toString(),
                 numExercisesDone.toString());
-
-
-
-      //  List<Exercise> list = new ArrayList<Exercise>();
-        //TODO - kiváncsi vagyok, hogy helyes-e a query...
 
         //rendezzük a sequence szerint növekvő sorrendbe
         Collections.sort(exerciseList, new Comparator<Exercise>() {
@@ -80,6 +59,7 @@ public class WorkoutDay extends SugarRecord<WorkoutDay> {
         Date utilDate = date.toDateTimeAtStartOfDay().toDate();
         dateLong = utilDate.getTime();
     }
+
     public LocalDate getDate() {
         Date utilDate = new Date(dateLong);
         LocalDate date = new LocalDate(utilDate);
@@ -94,18 +74,15 @@ public class WorkoutDay extends SugarRecord<WorkoutDay> {
     public boolean hasStarted() { return startedDay; }
     public boolean hasFinished() { return finishedDay; }
 
-    //swipe-olta a következő feladatot
     public void finishExercise() {
-
         numExercisesDone++;
-
     }
 
     public void startDay() {
         startedDay = true;
     }
 
-    //amikor elvégezte az utolsó feladatot is, akkor hívjuk meg ezt(?)
+    //amikor elvégezte az utolsó feladatot is
     public void finishDay() {
         finishedDay = true;
     }

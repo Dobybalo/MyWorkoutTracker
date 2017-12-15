@@ -24,15 +24,14 @@ public class Workout extends SugarRecord<Workout> {
 
     private boolean started = false;
 
+    private int requiredDaysPerWeek;    // heti hány napot edzünk
+    private int lengthInWeeks;          // hány hétből áll az edzésterv
+
     //PERZISZTENCIA miatt kell
     private String workoutName;
 
-    private int requiredDaysPerWeek;    // hetente hány napra van program benne
-    private int lengthInWeeks;
-
-    // lehet hogy erre a perzisztencia miatt nem is lesz szükség
     @Ignore
-    private Set<String> exercise_types = new HashSet<>(); // az előrehaladás és a többi miatt... -> bővíthetőség miatt jobb lenne osztályokat használni!
+    private Set<String> exercise_types = new HashSet<>();
 
     @Ignore
     private ArrayList<WorkoutDay> workoutDays = new ArrayList<>();
@@ -40,7 +39,6 @@ public class Workout extends SugarRecord<Workout> {
     @Ignore
     private HashMap<LocalDate, WorkoutDay > schedule = new HashMap<>();    // edzésnapok listája
 
-    //TODO - biztos nem kell az alábbi?
     @Ignore
     private WorkoutDay activeWorkoutDay;    // ez csak addig kell, amíg fut a program
 
@@ -62,7 +60,6 @@ public class Workout extends SugarRecord<Workout> {
 
     public Workout(String name) {
         workoutName = name;
-        this.lengthInWeeks = lengthInWeeks;
     }
 
     // TODO - hibakezelés
@@ -115,11 +112,12 @@ public class Workout extends SugarRecord<Workout> {
         setupSchedule();
     }
 
-    //Ez a függvény pontosan 1x fut le egy Workout-ot nézve,
-    // legközelebb már csak ki kell olvasni a dátumokat
+    /*
+    Beállítjuk, hogy az egyes Workout-oknál mely dátumokon lesz edzés.
+    Ez a függvény pontosan 1x fut le egy Workout-ot nézve,
+     legközelebb már csak ki kell olvasni a dátumokat az adatbázisból
+    */
     public void setWorkoutDays(boolean[] days, LocalDate startDate) {
-
-        // TODO: beteszünk még egy DatePickert a napválasztó activityre...
 
         //get startDate as day of week
         Date date = startDate.toDateTimeAtStartOfDay().toDate();
@@ -129,15 +127,11 @@ public class Workout extends SugarRecord<Workout> {
 
         setupWorkoutDaysList();
 
-       // if (workoutDays.size() == 0) Log.i("azonosito", "size: 0");
-
         for (int i=0; i < lengthInWeeks * 7; i++) {
 
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) -2; // 1-7 terjedő szám
 
             if (dayOfWeek == -1) dayOfWeek = 6;
-
-            //Log.i("azonosito", "day of week valtozo erteke: " + dayOfWeek);
 
             if (days[dayOfWeek] == true) {
                 Date dt = calendar.getTime();
@@ -157,24 +151,14 @@ public class Workout extends SugarRecord<Workout> {
 
         }
 
-        //setupSchedule();
-
     }
 
     public void addExerciseType(String s) {
         exercise_types.add(s);
     }
 
-    // nem biztos, hogy meg lesz valósítva...
-    private void parseWorkoutFromXML()  {
-        //TODO
-    }
-
     public void start() {
         started = true;
-
     }
-
-    //a progresst is itt kéne eltárolni - tipikusan perzisztens dolog...
 
 }

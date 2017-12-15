@@ -33,7 +33,6 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
     public void removeFirstItemFromList() {
         if (!items.isEmpty()) {
-            // TODO - exercise befejezése, progress!
             items.remove(0);
         }
     }

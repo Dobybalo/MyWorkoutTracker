@@ -10,16 +10,14 @@ import java.util.Set;
 
 import hu.bme.aut.myworkouttracker.R;
 
-/**
- * Created by Balint on 2017. 11. 27..
- */
 
 public class DataManager {
 
-    // Singleton!
     // TODO - rosszul használtam a Singletont, csupa statikus függvénye van
 
     private static DataManager instance = new DataManager();
+    // szükségmegoldás - innen lehet hivatkozni a képekre,
+    // nyilván bővítési szempontból nem a legjobb
     public static @DrawableRes int pushupIcon = R.drawable.pushup_icon;
     public static @DrawableRes int situpIcon = R.drawable.situp_icon;
 
@@ -36,14 +34,16 @@ public class DataManager {
         // ...
     }
 
-    private static HashMap<String, Workout> workouts = new HashMap<>();    //ezt listázzuk majd ki az Activityn, ahol kiválaszthatja a user, melyiket akarja nézni most
-
+    //ezt listázzuk majd ki az Activityn, ahol kiválaszthatja a user, melyiket akarja nézni most
+    private static HashMap<String, Workout> workouts = new HashMap<>();
     private static Workout activeWorkout;
 
-   // private Set<Exercise> exercise_types;     // ?? - progresshez, rekordokhoz
+    /*
+        Különböző adatszerkezeteket is használok, de a SugarORM
+        nem ezek szerint tárolja el az adatokat, ezért kiolvasom az adatokat
+        az adatbázisból, és azok alapján építem fel ami szükséges
+    */
 
-
-    //PERZISZTENCIA miatt relációk alapján építem fel a kollekciókat
     private static void setupWorkoutsMap() {
         //get all workouts, map them by name
         List<Workout> workoutList = Workout.listAll(Workout.class);
@@ -52,8 +52,6 @@ public class DataManager {
             workouts.put(key, wo);
         }
     }
-
-    // progress, summary of the week ...
 
     public static Workout getActiveWorkout() { return activeWorkout; }
     public static WorkoutDay getActiveWorkoutDay() { return activeWorkout.getActiveWorkoutDay(); }
@@ -67,19 +65,14 @@ public class DataManager {
 
         for (int i=0; i<6; i++) {
             WorkoutDay wd = new WorkoutDay(wo);
-            wd.save();  // a LocalDate itt még null, mivel új workout, a SelectWDActivityben lesz kitöltve
+            wd.save();
 
             for (int j=0; j<10; j++) {
                 Exercise e = new Exercise("fekvőtámasz", wd, j, "10");
-                e.save();   // Exercise adatai kész vannak, elmentjük
+                e.save();
             }
 
-
         }
-
-          // setupWorkoutsMap-et kell használni!
-        //workouts.put("100pushups", wo);
-
 
         Workout wo2 = new Workout("200situps");
         wo2.setLengthInWeeks(4);
@@ -88,24 +81,21 @@ public class DataManager {
 
         for (int i=0; i<12; i++) {
             WorkoutDay wd = new WorkoutDay(wo2);
-            wd.save();  // a LocalDate itt még null, mivel új workout, a SelectWDActivityben lesz kitöltve
+            wd.save();
 
             for (int j=0; j<10; j++) {
                 Exercise e = new Exercise("felülés", wd, j, "10");
-                Log.i("adding", "situp added");
-                e.save();   // Exercise adatai kész vannak, elmentjük
+                e.save();
             }
 
 
         }
 
-         // setupWorkoutsMap-et kell használni!
-        //workouts.put("100pushups", wo);
     }
 
     public static void setupWorkouts() {
 
-        //csak akkor adjuk hozzá a cuccokat az adatbázishoz, hogyha üres!
+        //csak akkor adjuk hozzá az edzésterveket(workout) az adatbázishoz, hogyha üres!
         List<Workout> list = Workout.listAll(Workout.class);
         if (list.isEmpty()) {
             addWorkoutsToDB();
@@ -121,10 +111,9 @@ public class DataManager {
         if (s == null) {
             return;
         }
-        Workout wo = workouts.get(s);   // here is da problem!
+        Workout wo = workouts.get(s);
         if (wo != null) {
             activeWorkout = wo;
-            //wo.start();
         }
 
     }
