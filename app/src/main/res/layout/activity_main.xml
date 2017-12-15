@@ -63,13 +63,11 @@
             android:spinnerMode="dropdown" />
 
         <Button
+            style="@style/CustomButton"
             android:id="@+id/startButton"
             android:layout_width="137dp"
             android:layout_height="wrap_content"
-
-            android:background="#ebffe0"
             android:text="@string/startButtonText"
-            android:textColor="#40b203"
             android:textSize="18sp" />
 
     </LinearLayout>

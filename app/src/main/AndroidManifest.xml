@@ -17,13 +17,13 @@
             android:value="sugar_example.db" />
         <meta-data
             android:name="VERSION"
-            android:value="13" />
+            android:value="16" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="model" />
+            android:value="hu.bme.aut.myworkouttracker.models" />
 
         <activity android:name=".activities.MainActivity">
             <intent-filter>

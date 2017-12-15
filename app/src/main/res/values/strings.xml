@@ -19,5 +19,6 @@
     <string name="pushup100workoutProgram">100pushups</string>
     <string name="pushup">fekvőtámasz</string>
     <string name="situp200workoutProgram">200situps</string>
+    <string name="backToCalendar">Naptárhoz</string>
 
 </resources>

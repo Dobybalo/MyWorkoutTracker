@@ -172,14 +172,18 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
             goButton.setEnabled(false);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        selectedDays = 0;   //problémás lenne, ha vissza lehetne ide lépni
-    }
 
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        //ha a Main-ből újra ide lépünk, új példány induljon majd ebből
+        Intent intent = new Intent(SelectWorkoutDaysActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

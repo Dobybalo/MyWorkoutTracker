@@ -96,9 +96,14 @@ public class DataManager {
 
     public static void setupWorkouts(Context context) {
 
+        //teszt
+        Workout dummy = new Workout();
+        dummy.save();
+
         //csak akkor adjuk hozzá az edzésterveket(workout) az adatbázishoz, hogyha üres!
         List<Workout> list = Workout.listAll(Workout.class);
-        if (list.isEmpty()) {
+       // if (list.isEmpty()) {
+        if (list.size() == 1) {
             addWorkoutsToDB(context);
         }
 
