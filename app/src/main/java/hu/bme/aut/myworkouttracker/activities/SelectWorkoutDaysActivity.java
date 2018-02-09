@@ -1,74 +1,59 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.activities;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.joda.time.LocalDate;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import model.DataManager;
-import model.Workout;
+import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.Workout;
 
 public class SelectWorkoutDaysActivity extends AppCompatActivity {
 
-    public static final String KEY_HOW_MANY = "KEY_HOW_MANY";
     private static int how_many_days;
     private static int selectedDays = 0;
-    //private Set<Integer> selection = new HashSet<>();
     private boolean[] selection = new boolean[7];
     private LocalDate startDate;
+    private Button goButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_workout_days);
 
-        /*
-        Intent intent = getIntent();
-        how_many_days = intent.getIntExtra(KEY_HOW_MANY, 1);
-        */
-
-        //ez változhat - TODO
-        // onResume-ban is frissíteni kell!!
         final Workout activeWorkout = DataManager.getActiveWorkout();
         how_many_days = activeWorkout.getRequiredDaysPerWeek();
 
-        final Button goButton = (Button) findViewById(R.id.goButton);
+        goButton = (Button) findViewById(R.id.goButton);
 
-        //defaultból legyen a gomb disabled
+        //by default legyen a gomb disabled
         goButton.setEnabled(false);
 
         goButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //validáció - elég nap ki van-e választva
-                //TODO - bár, végül is megvan...
-
-                //teszt!!
                 startDate = new LocalDate(new Date());
 
                 // ki kell számolni, hogy a megadott napok függvényében
-                //   melyik napokra esik edzés
+                //   mely dátumokra esik edzés
                 activeWorkout.setWorkoutDays(selection, startDate);
 
+                activeWorkout.start();
+                activeWorkout.save();
+
                 Intent intent = new Intent(SelectWorkoutDaysActivity.this, CalendarActivity.class);
-                //intent.putExtra(SelectWorkoutDaysActivity.KEY_HOW_MANY, days);
                 startActivity(intent);
 
             }
         });
-
-        //toggles
 
         for (int i=0; i<7; i++) {
             selection[i] = false;
@@ -85,10 +70,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+               checkEnoughDaysSelected();
             }
         });
 
@@ -103,10 +85,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
@@ -121,10 +100,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
@@ -139,10 +115,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
@@ -157,10 +130,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
         ToggleButton tgButton6 = (ToggleButton) findViewById(R.id.toggleButton6);
@@ -174,10 +144,7 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
@@ -192,25 +159,31 @@ public class SelectWorkoutDaysActivity extends AppCompatActivity {
                     selectedDays--;
                 }
 
-                if (how_many_days == selectedDays) {
-                    goButton.setEnabled(true);
-                } else
-                    goButton.setEnabled(false);
+                checkEnoughDaysSelected();
             }
         });
 
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //betölthetjük az elmentett adatokat, de egyelőre csak "frissítjük" a változókat
-        selectedDays = 0;
+    private void checkEnoughDaysSelected() {
+        if (how_many_days == selectedDays) {
+            goButton.setEnabled(true);
+        } else
+            goButton.setEnabled(false);
     }
+
 
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        //ha a Main-ből újra ide lépünk, új példány induljon majd ebből
+        Intent intent = new Intent(SelectWorkoutDaysActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

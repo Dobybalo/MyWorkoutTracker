@@ -1,18 +1,12 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
@@ -25,9 +19,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import model.DataManager;
-import model.Workout;
-import model.WorkoutDay;
+import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.Workout;
+import hu.bme.aut.myworkouttracker.models.WorkoutDay;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -54,25 +49,18 @@ public class CalendarActivity extends AppCompatActivity {
                 WorkoutDay wd = DataManager.getActiveWorkout().getSchedule().get(ld);
 
                 if (wd != null && !wd.hasFinished()) {
-                    //Toast.makeText(getApplicationContext(),"onSelectDate: not null!" , Toast.LENGTH_SHORT).show();
-
                     DataManager.setActiveWorkoutDay(wd);
 
                     Intent intent = new Intent(CalendarActivity.this, WorkoutDayActivity.class);
                     startActivity(intent);
                 }
 
-                /*
-                setBackgroundColors();
-                caldroidFragment.refreshView();
-                */
             }
         };
 
         caldroidFragment.setCaldroidListener(listener);
 
-        // set background colors
-        setBackgroundColors();  // ezt minden frissítésnél meg ilyennél meg kell hívni!
+        setBackgroundColors();
 
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.fragmentToSwap, caldroidFragment);
@@ -90,30 +78,29 @@ public class CalendarActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
     private void setBackgroundColors() {
-
-        //teszt
-     //   Toast.makeText(getApplicationContext(),"Hello Javatpoint", Toast.LENGTH_SHORT).show();
-
         Workout activeWorkout = DataManager.getActiveWorkout();
         HashMap<LocalDate, WorkoutDay> schedule = activeWorkout.getSchedule();
         int s = schedule.size();
-
-        Log.i("schedule", "schedule size: " + s);
 
         Iterator it = schedule.entrySet().iterator();
         while (it.hasNext()) {
 
             Map.Entry pair = (Map.Entry)it.next();
-            //System.out.println(pair.getKey() + " = " + pair.getValue());
 
             LocalDate ld = (LocalDate) pair.getKey();
-            // ugyanez Date verzióban:
             Date dt = ld.toDateTimeAtStartOfDay().toDate();
 
             WorkoutDay wd = (WorkoutDay) pair.getValue();
 
-            //színezés: ha még nem kezdődött el / ha már elkezdődött / ha már véget ért...
             if (wd.hasFinished()) {
                 Drawable finishedDay = ResourcesCompat.getDrawable(getResources(), R.drawable.finishedday, null);
                 caldroidFragment.setBackgroundDrawableForDate(finishedDay, dt);
@@ -125,10 +112,7 @@ public class CalendarActivity extends AppCompatActivity {
             else {
                 //még nem kezdődött el
                 Drawable unstartedDay = ResourcesCompat.getDrawable(getResources(), R.drawable.starteddayshape, null);
-                //teszt
                 caldroidFragment.setBackgroundDrawableForDate(unstartedDay, dt);
-              //  ColorDrawable green = new ColorDrawable(Color.GREEN);
-                //caldroidFragment.setTextColorForDate(R.color.colorAccent, dt);
             }
 
         }

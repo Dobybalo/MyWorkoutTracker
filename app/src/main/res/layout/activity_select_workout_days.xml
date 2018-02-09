@@ -16,68 +16,68 @@
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="22sp"
-        android:text="A hét mely napjain fogsz edzeni:" />
+        android:text="@string/instructionText" />
 
     <ToggleButton
         android:id="@+id/toggleButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.04"
-        android:textOn="Hétfő"
-        android:textOff="Hétfő" />
+        android:textOn="@string/monday"
+        android:textOff="@string/monday" />
 
     <ToggleButton
         android:id="@+id/toggleButton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.04"
-        android:textOn="Kedd"
-        android:textOff="Kedd" />
+        android:textOn="@string/tuesday"
+        android:textOff="@string/tuesday" />
 
     <ToggleButton
         android:id="@+id/toggleButton3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.04"
-        android:textOn="Szerda"
-        android:textOff="Szerda" />
+        android:textOn="@string/wednesday"
+        android:textOff="@string/wednesday" />
 
     <ToggleButton
         android:id="@+id/toggleButton4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.04"
-        android:textOn="Csütörtök"
-        android:textOff="Csütörtök"/>
+        android:textOn="@string/thursday"
+        android:textOff="@string/thursday"/>
 
     <ToggleButton
         android:id="@+id/toggleButton5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.04"
-        android:textOn="Péntek"
-        android:textOff="Péntek" />
+        android:textOn="@string/friday"
+        android:textOff="@string/friday" />
 
     <ToggleButton
         android:id="@+id/toggleButton6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.04"
-        android:textOn="Szombat"
-        android:textOff="Szombat" />
+        android:textOn="@string/saturday"
+        android:textOff="@string/saturday" />
 
     <ToggleButton
         android:id="@+id/toggleButton7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.04"
-        android:textOn="Vasárnap"
-        android:textOff="Vasárnap" />
+        android:textOn="@string/sunday"
+        android:textOff="@string/sunday" />
 
     <Button
         android:id="@+id/goButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.1"
-        android:text="GO!" />
+        android:text="@string/enoughDaysChosenButtonText" />
 </LinearLayout>

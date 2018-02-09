@@ -1,8 +1,7 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +12,12 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.DataManager;
-import model.Exercise;
-import model.ExerciseListAdapter;
-import model.ExerciseListItem;
-import model.WorkoutDay;
+import hu.bme.aut.myworkouttracker.R;
+import hu.bme.aut.myworkouttracker.data.DataManager;
+import hu.bme.aut.myworkouttracker.models.Exercise;
+import hu.bme.aut.myworkouttracker.adapters.ExerciseListAdapter;
+import hu.bme.aut.myworkouttracker.adapters.ExerciseListItem;
+import hu.bme.aut.myworkouttracker.models.WorkoutDay;
 
 public class WorkoutDayActivity extends AppCompatActivity {
 
@@ -48,24 +48,28 @@ public class WorkoutDayActivity extends AppCompatActivity {
 
                 if (adapter.getItemCount() != 0) {
 
+                    // hogy ne lehessen azelőtt lenyomni újra, hogy befejeztük volna
+                    doneButton.setEnabled(false);
+
                     if (!activeDay.hasStarted()) activeDay.startDay();
 
                     activeDay.finishExercise();
 
                     adapter.removeFirstItemFromList();
-                    //list.remove(position);
                     recyclerView.removeViewAt(0);
                     adapter.notifyItemRemoved(0);
                     adapter.notifyItemRangeChanged(0, adapter.getItemCount());
 
                     recyclerView.smoothScrollToPosition(0);
+
+                    doneButton.setEnabled(true);
                 }
 
                 if (adapter.getItemCount() == 0) {
+
                     activeDay.finishDay();
 
-                    //egyelőre a Calendar-ba, amúgy a ProgressActivitybe!!
-                    Intent intent = new Intent(WorkoutDayActivity.this, CalendarActivity.class);
+                    Intent intent = new Intent(WorkoutDayActivity.this, ProgressActivity.class);
                     startActivity(intent);
                 }
             }
@@ -77,42 +81,36 @@ public class WorkoutDayActivity extends AppCompatActivity {
     private void initRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.MainRecyclerView);
         adapter = new ExerciseListAdapter();
-        //TODO loadItemsInBackground();
 
-        //egyelőre
-        loadItems();
+        loadItemsInBackground();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
-    /*
+
     private void loadItemsInBackground() {
         new AsyncTask<Void, Void, List<ExerciseListItem>>() {
 
             @Override
             protected List<ExerciseListItem> doInBackground(Void... voids) {
-                return ExerciseListItem.listAll(ExerciseListItem.class);
+                List<ExerciseListItem> exercises = new ArrayList<>();
+                WorkoutDay activeWorkoutDay = DataManager.getActiveWorkoutDay();
+                List<Exercise> list = activeWorkoutDay.getTodaysExercises();
+                for (Exercise e : list) {
+                    ExerciseListItem eli = new ExerciseListItem(e);
+                    exercises.add(eli);
+                }
+                return exercises;
+
             }
 
             @Override
-            protected void onPostExecute(List<ShoppingItem> shoppingItems) {
-                super.onPostExecute(shoppingItems);
-                adapter.update(shoppingItems);
+            protected void onPostExecute(List<ExerciseListItem> exercises) {
+                super.onPostExecute(exercises);
+                adapter.update(exercises);
             }
         }.execute();
     }
-    */
 
-    private void loadItems() {
-        List<ExerciseListItem> exercises = new ArrayList<>();
-        WorkoutDay activeWorkoutDay = DataManager.getActiveWorkoutDay();
-        List<Exercise> list = activeWorkoutDay.getTodaysExercises();
-        for (Exercise e : list) {
-            ExerciseListItem eli = new ExerciseListItem(e);
-            exercises.add(eli);
-        }
-
-        adapter.update(exercises);
-    }
 }

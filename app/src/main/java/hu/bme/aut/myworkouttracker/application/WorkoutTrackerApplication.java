@@ -1,10 +1,6 @@
-package hu.bme.aut.myworkouttracker;
+package hu.bme.aut.myworkouttracker.application;
 
 import com.orm.SugarApp;
-
-/**
- * Created by Balint on 2017. 12. 11..
- */
 
 public class WorkoutTrackerApplication extends SugarApp {
 }

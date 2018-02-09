@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#40b203"
-    tools:context="hu.bme.aut.myworkouttracker.MainActivity">
+    tools:context="hu.bme.aut.myworkouttracker.activities.MainActivity">
 
 
     <LinearLayout
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
-            android:text="My Workout Tracker"
+            android:text="@string/my_workout_tracker"
             android:textAlignment="center"
             android:textColor="#ebffe0"
             android:textSize="34sp"
@@ -63,13 +63,11 @@
             android:spinnerMode="dropdown" />
 
         <Button
+            style="@style/CustomButton"
             android:id="@+id/startButton"
             android:layout_width="137dp"
             android:layout_height="wrap_content"
-
-            android:background="#ebffe0"
-            android:text="Go!"
-            android:textColor="#40b203"
+            android:text="@string/startButtonText"
             android:textSize="18sp" />
 
     </LinearLayout>

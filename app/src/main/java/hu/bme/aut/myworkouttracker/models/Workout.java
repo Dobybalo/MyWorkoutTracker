@@ -1,11 +1,8 @@
-package model;
-
-import android.util.Log;
+package hu.bme.aut.myworkouttracker.models;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,15 +21,14 @@ public class Workout extends SugarRecord<Workout> {
 
     private boolean started = false;
 
+    private int requiredDaysPerWeek;    // heti hány napot edzünk
+    private int lengthInWeeks;          // hány hétből áll az edzésterv
+
     //PERZISZTENCIA miatt kell
     private String workoutName;
 
-    private int requiredDaysPerWeek;    // hetente hány napra van program benne
-    private int lengthInWeeks;
-
-    // lehet hogy erre a perzisztencia miatt nem is lesz szükség
     @Ignore
-    private Set<String> exercise_types = new HashSet<>(); // az előrehaladás és a többi miatt... -> bővíthetőség miatt jobb lenne osztályokat használni!
+    private Set<String> exercise_types = new HashSet<>();
 
     @Ignore
     private ArrayList<WorkoutDay> workoutDays = new ArrayList<>();
@@ -40,32 +36,21 @@ public class Workout extends SugarRecord<Workout> {
     @Ignore
     private HashMap<LocalDate, WorkoutDay > schedule = new HashMap<>();    // edzésnapok listája
 
-    //TODO - biztos nem kell az alábbi?
     @Ignore
     private WorkoutDay activeWorkoutDay;    // ez csak addig kell, amíg fut a program
 
-    private void setupExercisesSet() {
-        // database query: SELECT DISTINCT
-        List<Exercise> exerciseList = Exercise.listAll(Exercise.class);
-        for (Exercise e: exerciseList) {
-            exercise_types.add(e.getExerciseName());    // mivel set, csak akkor adja hozzá, ha új
-        }
-    }
 
+    public Workout() {}
+
+    public Workout(String name) {
+        workoutName = name;
+    }
 
 
     public String getWorkoutName() {
         return workoutName;
     }
 
-    public Workout() {}
-
-    public Workout(String name) {
-        workoutName = name;
-        this.lengthInWeeks = lengthInWeeks;
-    }
-
-    // TODO - hibakezelés
     public void setLengthInWeeks(int n) {
         if (n >= 0) lengthInWeeks = n;
     }
@@ -82,13 +67,72 @@ public class Workout extends SugarRecord<Workout> {
         requiredDaysPerWeek = n;
     }
 
-    public void addWorkoutDay(WorkoutDay wd) {
-        workoutDays.add(wd);
-    }
-
     public int getRequiredDaysPerWeek() { return requiredDaysPerWeek; }
 
     public HashMap<LocalDate, WorkoutDay> getSchedule() { return schedule; }
+
+
+    public void readScheduleFromDB() {
+        setupWorkoutDaysList();
+        setupSchedule();
+    }
+
+    /*
+    Beállítjuk, hogy az egyes Workout-oknál mely dátumokon lesz edzés.
+    Ez a függvény pontosan 1x fut le egy Workout-ot nézve,
+     legközelebb már csak ki kell olvasni a dátumokat az adatbázisból
+    */
+    public void setWorkoutDays(boolean[] days, LocalDate startDate) {
+
+        //get startDate as day of week
+        Date date = startDate.toDateTimeAtStartOfDay().toDate();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        setupWorkoutDaysList();
+
+        for (int i=0; i < lengthInWeeks * 7; i++) {
+
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) -2; // 1-7 terjedő szám
+
+            if (dayOfWeek == -1) dayOfWeek = 6;
+
+            if (days[dayOfWeek] == true) {
+                Date dt = calendar.getTime();
+                LocalDate ld = new LocalDate(dt);
+                if (workoutDays.isEmpty() == false) {
+                    WorkoutDay wd = workoutDays.remove(0);
+                    schedule.put(ld, wd);
+
+                    wd.setDate(ld);
+                    wd.save();
+
+                }
+
+            }
+
+            calendar.add(Calendar.DATE, 1);
+
+        }
+
+    }
+
+    public void addExerciseType(String s) {
+        exercise_types.add(s);
+    }
+
+    public void start() {
+        started = true;
+    }
+
+    private void setupExercisesSet() {
+        // database query: SELECT DISTINCT
+        List<Exercise> exerciseList = Exercise.listAll(Exercise.class);
+        for (Exercise e: exerciseList) {
+            exercise_types.add(e.getName());    // mivel set, csak akkor adja hozzá, ha új
+        }
+    }
 
     private void setupWorkoutDaysList() {
         List<WorkoutDay> workoutDayList = WorkoutDay.getWorkoutDaysListForWorkout(this);
@@ -110,65 +154,5 @@ public class Workout extends SugarRecord<Workout> {
 
     }
 
-    public void setWorkoutDays(boolean[] days, LocalDate startDate) {
-
-        // TODO: beteszünk még egy DatePickert a napválasztó activityre...
-
-        //get startDate as day of week
-        Date date = startDate.toDateTimeAtStartOfDay().toDate();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        //teszt
-        setupWorkoutDaysList();
-
-        if (workoutDays.size() == 0) Log.i("azonosito", "size: 0");
-
-        for (int i=0; i < lengthInWeeks * 7; i++) {
-
-            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) -2; // 1-7 terjedő szám
-
-            if (dayOfWeek == -1) dayOfWeek = 6;
-
-            //Log.i("azonosito", "day of week valtozo erteke: " + dayOfWeek);
-
-            if (days[dayOfWeek] == true) {
-                Date dt = calendar.getTime();
-                LocalDate ld = new LocalDate(dt);
-                if (workoutDays.isEmpty() == false) {
-                    WorkoutDay wd = workoutDays.remove(0);
-                    schedule.put(ld, wd);
-                    //teszt
-                    wd.setDate(ld);
-                    wd.save();
-
-                }
-
-            }
-
-            calendar.add(Calendar.DATE, 1);
-
-        }
-
-        //setupSchedule();
-
-    }
-
-    public void addExerciseType(String s) {
-        exercise_types.add(s);
-    }
-
-    // nem biztos, hogy meg lesz valósítva...
-    private void parseWorkoutFromXML()  {
-        //TODO
-    }
-
-    public void start() {
-        started = true;
-
-    }
-
-    //a progresst is itt kéne eltárolni - tipikusan perzisztens dolog...
 
 }
